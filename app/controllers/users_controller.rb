@@ -4,12 +4,25 @@ class UsersController < ApplicationController
 
   # GET /users
   # GET /users.json
-  def index    
+  def index
+    input_limit = 100
+    input_offset = 1
+    offset = 0    
+    limit = 10
     tmp = 1
     @rank = calc_rank
-    @offset = 
-    @users = User.order(sort_column + " " + sort_direction).take(10)
-    
+
+
+    if limit != 10 and offset != 0
+      limit = input_limit
+      offset = input_offset
+    elsif limit != 10 and offset 0==0
+      limit = input_limit
+    elsif limit != -1 and offset == -1
+        offset = offset_limit
+    end
+    @users = User.order(sort_column + " " + sort_direction).limit(limit).offset(offset)
+
   end
 
   # GET /users/1
@@ -123,7 +136,6 @@ class UsersController < ApplicationController
         r.save
       }
     end
-    
 end
 
 
